@@ -7,6 +7,11 @@ export function login(cred:ICred) {
   );
 }
 
+export function refresh(token:string) {
+    return new Promise<{ data: any }>((resolve) =>
+    axios.post(SERVER +"token/refresh/",{"refresh":token}).then(res => resolve({ data: res.data }))
+    );
+  }
 
 export function register(cred:ICred) {
     return new Promise<{ data: any }>((resolve) =>

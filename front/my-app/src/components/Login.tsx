@@ -15,7 +15,18 @@ export function Login() {
     const [username, setuserName] = useState("")
     const notify = () => toast("Wow so easy! " + username);
     const [email, setemail] = useState("")
+
+    const setRemember=()=>{
+        let reme=localStorage.getItem("remember")
+        if(reme !== null)
+            
+            return JSON.parse(reme)
+
+    }
+
+    const [remember, setremember] = useState(setRemember())//JSON.parse( localStorage.getItem("remember")|| "false"))
     useEffect(() => {
+        console.log( localStorage.getItem("remember"))
         if(registerd){
         console.log(registerd)
         notify()
@@ -24,6 +35,10 @@ export function Login() {
             console.log("not registerd")
         }
     }, [registerd])
+    
+    useEffect(() => {
+     localStorage.setItem("remember",JSON.stringify( remember))
+    }, [remember])
     
   return (
     <div>
@@ -36,7 +51,9 @@ export function Login() {
           email<input onChange={(e)=>setemail(e.target.value)}/>
           <button onClick={()=>dispatch(loginAsync({password,username}))}>Login</button>
           <button onClick={()=>dispatch(regAsync({password,username,email:email || "e@a.com"}))}>Register</button>
+         
       </div>
+      Remember me<input onChange={(e)=>setremember(e.target.checked)}  type={'checkbox'}></input>
     </div>
   );
 }
